@@ -4,10 +4,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Guru Registration Form</title>
+<title>Sebas Register Form</title>
 </head>
 <body>
-<h1>Guru Register Form</h1>
+<h1>Sebas Register Form</h1>
 
 <style>
 	#customers {
@@ -68,7 +68,7 @@
 
 
 <div id="form">
-	<form onsubmit="addToTable();return false">
+	<form action="#" onsubmit="checkValues();return false">
 	  <label for="fname">First Name</label>
 	  <input type="text" id="fname" name="firstname" placeholder="Your first name..">
   
@@ -91,14 +91,6 @@
   <br>
   <br>
   <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
 
 
 <table id="customers">
@@ -109,38 +101,38 @@
 	  <th>Phone Number</th>
 	  <th>Remove Item</th>
 	</tr>
-	<tr>
-		<td>Moti</td>
-		<td>Barabak</td>
-		<td>moti.b@gmail.com</td>
-		<td>054-555555</td>
-		<td><button onclick="removeRow(this)">Remove</button></td>
-	</tr>
-	<tr>
-		<td>Sebastian</td>
-		<td>Altheim</td>
-		<td>sebastianaltheim@gmail.com</td>
-		<td>054-4366143</td>
-	</tr>
   </table>
 
 
 <script>
-    function addToTable(fname, lname, email, phone) {
+
+	addToTable("Moti","Barabak","moti.b@gmail.com","054-5555555")
+	addToTable("Sebastian","Altheim","sebastianaltheim@gmail.com","054-4366143")
+
+
+
+    function addToTable(...args) {
+
 		var table = document.getElementById("customers");
-		console.log(table);
-		var row = table.insertRow(1);
-		var cell1 = row.insertCell(0);
-		var cell2 = row.insertCell(1);
-		var cell3 = row.insertCell(2);
-		var cell4 = row.insertCell(3);
+		var row = table.insertRow(table.length);
+		var btn = document.createElement("BUTTON"); 
+		btn.innerHTML = "Remove";
+		btn.onclick = function func() { removeRow(this) };
 
+		for (let i = 0 ; i < args.length ; i++) {
+			var cell = row.insertCell(i);
+			cell.appendChild(document.createTextNode(args[i]));
+			cell.id = 'cell_'+i
+		}
+		
+		var cell = row.insertCell(args.length);
+		cell.appendChild(btn);
 
-		cell1.appendChild(document.createTextNode(fname));
-		cell2.appendChild(document.createTextNode(lname));
-		cell3.appendChild(document.createTextNode(email));
-		cell4.appendChild(document.createTextNode(phone));
+	}
 
+	function removeRow(element) {
+		var table = document.getElementById("customers");
+		table.deleteRow(element.parentNode.parentNode.rowIndex)
 	}
 	
 	function checkValues() {
@@ -149,7 +141,41 @@
 		let email = document.getElementById("email").value;
 		let phonenum = document.getElementById("phonenum").value;
 
+		if (!fname || !lname || !email || !phonenum) {
+			alert("Missing Parameters!");
+			return;
+		}
 
+		if (!validateEmail(email)) {
+			alert("Invalid Email")
+			return;
+		}
+
+		if (!validatePhone(phonenum)) {
+			alert("Invalid Phone")
+			return;
+		}
+
+		addToTable(fname, lname, email, phonenum);
+	}
+
+
+
+	function validateEmail(email) {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+	}
+
+	function validatePhone(phone) {
+		if (phone.length < 9 || phone.length > 11) {
+			return false;
+		}
+
+		var regExp = /[a-zA-Z]/g;
+		if (regExp.test(phone)) {
+			return false;
+		}
+		return true;
 	}
 	
 </script>
