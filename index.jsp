@@ -29,7 +29,7 @@
 	  padding-top: 12px;
 	  padding-bottom: 12px;
 	  text-align: left;
-	  background-color: #4CAF50;
+	  background-color: #ff8800;
 	  color: white;
 	}
 
@@ -183,3 +183,6 @@
                 
 </body>
 </html>
+
+
+//java -Dwebdriver.gecko.driver=C:\Users\Sebas\Desktop\DevOps\SeleniumTest\geckodriver.exe -jar selenium-html-runner-3.4.0.jar -htmlSuite "*firefox" http://localhost:8080/sebastian-webapp1 "sebas-webapp.side" "results.htm"
